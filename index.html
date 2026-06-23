@@ -2,191 +2,120 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Universo Sorpresa</title>
-
+<title>Regalo</title>
 <style>
 body{
-margin:0;
-height:100vh;
-overflow:hidden;
-background:black;
-font-family:Arial;
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background: radial-gradient(circle, #0b0b2b, #000);
+  font-family:sans-serif;
 }
 
-/* FONDO UNIVERSO */
-.bg{
-position:absolute;
-width:100%;
-height:100%;
-background:radial-gradient(circle,#1a0033,#000);
-transition:3s;
+/* ocultamos el checkbox */
+#abrir{
+  display:none;
 }
 
-/* ESTRELLAS */
-.star{
-position:absolute;
-width:2px;
-height:2px;
-background:white;
-border-radius:50%;
-opacity:0.8;
+/* caja regalo */
+.caja{
+  width:200px;
+  height:200px;
+  background: linear-gradient(145deg, #ff4d6d, #c9184a);
+  position:relative;
+  cursor:pointer;
+  border-radius:15px;
+  box-shadow:0 0 25px #ff4d6d;
+  transition:0.5s;
 }
 
-/* PORTAL */
-.portal{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:200px;
-height:200px;
-border-radius:50%;
-background:radial-gradient(circle,#ff4df0,#6a00ff,#000);
-box-shadow:0 0 80px #ff4df0;
-display:flex;
-align-items:center;
-justify-content:center;
-color:white;
-font-weight:bold;
-cursor:pointer;
-animation:spin 5s linear infinite;
+/* cinta */
+.caja::before{
+  content:"";
+  position:absolute;
+  width:30px;
+  height:100%;
+  background:#fff;
+  left:50%;
+  transform:translateX(-50%);
 }
 
-@keyframes spin{
-from{transform:translate(-50%,-50%) rotate(0deg)}
-to{transform:translate(-50%,-50%) rotate(360deg)}
+/* tapa */
+.caja::after{
+  content:"";
+  position:absolute;
+  width:100%;
+  height:30px;
+  background:#fff;
+  top:50%;
+  transform:translateY(-50%);
 }
 
-/* ROSA */
+/* texto inicial */
+.texto{
+  position:absolute;
+  width:100%;
+  text-align:center;
+  top:80px;
+  color:white;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+/* contenido oculto */
+.regalo{
+  position:absolute;
+  opacity:0;
+  transform:scale(0);
+  transition:1s;
+  color:white;
+  text-align:center;
+}
+
+/* rosa */
 .rosa{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%) scale(0);
-font-size:90px;
-opacity:0;
-transition:1s;
+  font-size:60px;
+  animation:flotar 2s infinite ease-in-out;
 }
 
-/* EXPLOSIÓN */
-.explosion{
-position:absolute;
-width:100%;
-height:100%;
-background:radial-gradient(circle,rgba(255,77,240,0.7),transparent);
-transform:scale(0);
-opacity:0;
-transition:0.6s;
+/* animación */
+@keyframes flotar{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-10px);}
 }
 
-/* TEXTO FINAL */
-.final{
-position:absolute;
-top:65%;
-width:100%;
-text-align:center;
-color:white;
-font-size:18px;
-opacity:0;
-transition:2s;
+/* cuando se abre */
+#abrir:checked + label .caja{
+  transform:scale(0.5) rotate(10deg);
+  opacity:0;
 }
 
-/* BOTÓN */
-button{
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-padding:15px 25px;
-border:none;
-border-radius:20px;
-background:#ff4dd2;
-color:white;
-font-size:16px;
-cursor:pointer;
+#abrir:checked + label .regalo{
+  opacity:1;
+  transform:scale(1);
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg" id="bg"></div>
-<div class="explosion" id="exp"></div>
+<input type="checkbox" id="abrir">
 
-<div class="portal" onclick="activar()">
-TOCA 🌌
-</div>
+<label for="abrir">
 
-<div class="rosa" id="rosa">🌹</div>
+  <div class="caja">
+    <div class="texto">TOCA PARA ABRIR</div>
+  </div>
 
-<div class="final" id="final"></div>
+  <div class="regalo">
+    <div class="rosa">🌹</div>
+    <h2>ME GUSTAS MUCHO</h2>
+    <p>Un pequeño detalle del universo para ti ✨🌌</p>
+  </div>
 
-<script>
-
-/* CREAR ESTRELLAS */
-for(let i=0;i<150;i++){
-let s=document.createElement("div");
-s.className="star";
-s.style.left=Math.random()*100+"vw";
-s.style.top=Math.random()*100+"vh";
-document.body.appendChild(s);
-}
-
-/* ACTIVAR UNIVERSO */
-function activar(){
-
-/* ocultar portal */
-document.querySelector(".portal").style.opacity="0";
-
-/* explosión */
-document.getElementById("exp").style.transform="scale(1)";
-document.getElementById("exp").style.opacity="1";
-
-/* zoom universo */
-document.getElementById("bg").style.transform="scale(1.2)";
-
-/* rosa aparece */
-setTimeout(()=>{
-let r=document.getElementById("rosa");
-r.style.transform="translate(-50%,-50%) scale(1.4)";
-r.style.opacity="1";
-},1000);
-
-/* mensaje final */
-setTimeout(()=>{
-let f=document.getElementById("final");
-f.style.opacity="1";
-f.innerHTML=`
-A veces el universo no pregunta…<br><br>
-solo junta lo que tiene que estar junto 🌌💖
-`;
-},2000);
-
-/* efecto latido */
-setInterval(()=>{
-document.body.style.filter="brightness(1.2)";
-setTimeout(()=>{
-document.body.style.filter="brightness(1)";
-},200);
-},900);
-
-/* partículas románticas */
-setInterval(()=>{
-let c=document.createElement("div");
-c.innerHTML="💖";
-c.style.position="absolute";
-c.style.left=Math.random()*100+"vw";
-c.style.bottom="0px";
-c.style.fontSize="18px";
-c.style.animation="float 4s linear forwards";
-document.body.appendChild(c);
-
-setTimeout(()=>c.remove(),4000);
-},200);
-
-}
-
-</script>
+</label>
 
 </body>
 </html>

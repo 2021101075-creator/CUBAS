@@ -1,0 +1,79 @@
+function activar(){
+
+document.querySelector(".portal").style.opacity="0";
+
+/* EXPLOSIÓN SUAVE */
+document.getElementById("exp").style.transform="scale(1)";
+document.getElementById("exp").style.opacity="1";
+
+/* ZOOM CINEMÁTICO DEL UNIVERSO */
+document.getElementById("bg").style.transform="scale(1.2)";
+document.getElementById("bg").style.transition="3s ease";
+
+/* ROSA FINAL */
+setTimeout(()=>{
+let rosa=document.getElementById("rosa");
+rosa.style.transform="translate(-50%,-50%) scale(1.4)";
+rosa.style.opacity="1";
+},1200);
+
+/* TEXTO PRINCIPAL */
+setTimeout(()=>{
+let txt=document.createElement("div");
+txt.innerHTML=`
+<div style="
+position:absolute;
+top:62%;
+width:100%;
+text-align:center;
+color:white;
+font-size:18px;
+animation:fadeIn 2s ease;
+">
+A veces no es coincidencia…<br><br>
+es solo el universo encontrando equilibrio 🌌
+</div>
+`;
+document.body.appendChild(txt);
+},1800);
+
+/* LATIDO VISUAL */
+setInterval(()=>{
+document.body.style.filter="brightness(1.2)";
+setTimeout(()=>{
+document.body.style.filter="brightness(1)";
+},200);
+},900);
+
+/* FINAL ROMÁNTICO */
+setTimeout(()=>{
+let final=document.createElement("div");
+final.innerHTML=`
+<div style="
+position:absolute;
+top:80%;
+width:100%;
+text-align:center;
+color:#ff4dd2;
+font-size:20px;
+font-weight:bold;
+animation:fadeIn 2s ease;
+">
+y si el universo lo permitió así…<br>
+entonces no fue casualidad 🌹
+</div>
+`;
+document.body.appendChild(final);
+},3500);
+
+/* LLUVIA DE PARTÍCULAS */
+setInterval(()=>{
+let p=document.createElement("div");
+p.className="particle";
+p.style.left=Math.random()*100+"vw";
+p.style.bottom="0px";
+document.body.appendChild(p);
+setTimeout(()=>p.remove(),4000);
+},180);
+
+}
